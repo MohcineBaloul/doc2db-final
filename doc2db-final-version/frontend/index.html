@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doc2DB-Gen</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Doc2DB-Gen</h1>
+      <p class="tagline">PDFs, tables & images → normalized database</p>
+    </header>
+
+    <section class="card upload-section">
+      <h2>1. Create project & upload</h2>
+      <div class="row">
+        <button type="button" id="createProject">New project</button>
+        <span id="projectId" class="muted"></span>
+      </div>
+      <div class="row upload-row">
+        <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.csv,.txt" />
+        <button type="button" id="uploadBtn" disabled>Upload file</button>
+      </div>
+      <p id="uploadStatus" class="status muted"></p>
+    </section>
+
+    <section class="card extract-section">
+      <h2>2. Extract schema (LLM)</h2>
+      <button type="button" id="extractBtn" disabled>Extract entities & relationships</button>
+      <p id="extractStatus" class="status muted"></p>
+    </section>
+
+    <section class="card results-section" id="resultsSection" hidden>
+      <h2>3. Generated schema</h2>
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="er">ER diagram</button>
+        <button type="button" class="tab" data-tab="ddl">SQL DDL</button>
+      </div>
+      <div id="tabEr" class="tab-panel">
+        <div id="mermaidContainer" class="mermaid-wrap"></div>
+      </div>
+      <div id="tabDdl" class="tab-panel hidden">
+        <pre id="ddlCode"></pre>
+      </div>
+      <div class="row actions">
+        <button type="button" id="applySchemaBtn">Apply schema to DB</button>
+        <button type="button" id="previewBtn">Preview DB</button>
+      </div>
+    </section>
+
+    <section class="card preview-section" id="previewSection" hidden>
+      <h2>Database preview</h2>
+      <div id="previewTables"></div>
+    </section>
+
+    <footer>
+      <a href="/docs" target="_blank">API docs</a> · <span id="healthStatus"></span>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

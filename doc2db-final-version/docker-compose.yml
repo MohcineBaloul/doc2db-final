@@ -1,0 +1,24 @@
+# Doc2DB-Gen: run PostgreSQL for metadata DB
+# Usage: docker compose up -d
+# Then set in backend/.env: DATABASE_URL=postgresql+asyncpg://doc2db:doc2db_secret@localhost:5432/doc2db
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: doc2db-postgres
+    environment:
+      POSTGRES_USER: doc2db
+      POSTGRES_PASSWORD: doc2db_secret
+      POSTGRES_DB: doc2db
+    ports:
+      - "5432:5432"
+    volumes:
+      - doc2db_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doc2db -d doc2db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  doc2db_pgdata:
